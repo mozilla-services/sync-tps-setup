@@ -1,6 +1,7 @@
 # TPS automation
 
-TPS is Testing and Performance for (Firefox) Sync.  It's a test suite that lives in `mozilla-central`.
+TPS is Testing and Performance for (Firefox) Sync.  It's a test suite that lives in `mozilla-central`.  Documentation for TPS is on MDN at https://developer.mozilla.org/en-US/docs/Mozilla/Projects/TPS_Tests.
+
 This piece of automation is designed to run TPS on a designated schedule from an Ubuntu 14.04 LTS node in AWS.
 
 # Steps to follow
