@@ -11,8 +11,7 @@ This piece of automation is designed to run TPS on a designated schedule from an
 1. Type: `sudo apt-get -y update && sudo apt-get -y install git make`
 1. Type: `mkdir -p Library/github/mozilla-services`
 1. Type: `cd Library/github/mozilla-services`
-1. Clone this repository in that directory, i.e. `git clone git@github.com:mozilla-services/services-test.git`
-1. Type: `cd services-test/sync/e2e-test`
+1. Clone this repository in that directory, i.e. `git clone git@github.com:mozilla-services/sync-tps-setup.git`
 1. Make sure you have the keys necessary to decrypt the `*.asc` files. (How to do this will vary -- ask kthiessen.)
 1. Change the `Makefile` so that `CENTRAL` points to a directory with a reasonably recent checkout of `mozilla-central`
 1. Type: `sudo make ubuntu`
