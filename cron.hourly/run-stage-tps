@@ -19,4 +19,16 @@ RECIPIENTS="sync-core@mozilla.com"
 # echo "Testing automated delivery of TPS Stage failures." | HOME=/home/ubuntu mailx -s 'Testing TPS Stage mail' $RECIPIENTS
 # exit 2
 
-sudo -u ubuntu -i -- bash -c "(cd /home/ubuntu/Library/github/mozilla-services/services-test/sync/e2e-test && make update && make nightly && make stage) >& /tmp/stage-results.txt || HOME=/home/ubuntu mailx -s 'TPS Stage failure' $RECIPIENTS < /tmp/stage-results.txt"
+sudo -u ubuntu -i -- bash -c "(cd /home/ubuntu/Library/github/mozilla-services/services-test/sync/e2e-test && make update && make nightly && make stage) >& /tmp/stage-results.txt" 
+
+STATUS=$?
+
+echo "Exit status is $STATUS." > /tmp/last-stage-status.txt
+
+if [ $STATUS = "0" ]; then
+	 echo "TPS Stage run succeeded." | HOME=/home/ubuntu mailx -s 'TPS Stage Success' $RECIPIENTS	
+else
+	grep '^TEST' /tmp/stage-results.txt > /tmp/stage-summary.txt
+	echo 'Log in and examine /tmp/stage-results.txt for more details.' >> /tmp/stage-summary.txt
+	 HOME=/home/ubuntu mailx -s 'TPS Stage failure' $RECIPIENTS < /tmp/stage-summary.txt
+fi
