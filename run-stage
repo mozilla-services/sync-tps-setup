@@ -12,4 +12,4 @@ cd $PWD/mozilla-central/testing/tps || exit 1
 
 # xvfb-run - uses DISPLAY=:99 (by default)
 #xvfb-run runtps --debug --binary="${BINARY}" 
-MOZ_HEADLESS=1 runtps --debug --binary="${BINARY}" --configfile=$CFGDIR/stage-config.json
+MOZ_HEADLESS=1 runtps --debug --stop-on-error --binary="${BINARY}" --configfile=$CFGDIR/stage-config.json
