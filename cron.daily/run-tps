@@ -4,7 +4,7 @@ RECIPIENTS="sync-core@mozilla.com"
 
 # echo "Testing automated delivery of TPS failures." | HOME=/home/ubuntu mailx -s 'Testing TPS mail' $RECIPIENTS
 
-sudo -u ubuntu -i -- bash -c "(cd /home/ubuntu/Library/github/mozilla-services/services-test/sync/e2e-test && make update && make nightly && make prod) >& /tmp/results.txt" 
+sudo -u ubuntu -i -- bash -c "(cd /home/ubuntu/Library/github/mozilla-services/sync-tps-setup && make update && make nightly && make prod) >& /tmp/results.txt" 
 
 if [ $? = "0" ]; then
 	echo "TPS Prod succeeded; log in and view /tmp/results.txt for details." | HOME=/home/ubuntu mailx -s 'TPS success' $RECIPIENTS
