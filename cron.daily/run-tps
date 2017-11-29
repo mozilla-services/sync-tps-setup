@@ -9,5 +9,6 @@ sudo -u ubuntu -i -- bash -c "(cd /home/ubuntu/Library/github/mozilla-services/s
 if [ $? = "0" ]; then
 	echo "TPS Prod succeeded; log in and view /tmp/results.txt for details." | HOME=/home/ubuntu mailx -s 'TPS success' $RECIPIENTS
 else
-	HOME=/home/ubuntu mailx -s 'TPS failure' $RECIPIENTS < /tmp/results.txt
+        sed -e '1,/^Test summary/d' < /tmp/results.txt > /tmp/results-summary.txt
+	HOME=/home/ubuntu mailx -s 'TPS failure' $RECIPIENTS < /tmp/results-summary.txt
 fi
