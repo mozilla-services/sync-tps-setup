@@ -29,6 +29,6 @@ if [ $STATUS = "0" ]; then
 	 echo "TPS Stage run succeeded." | HOME=/home/ubuntu mailx -s 'TPS Stage Success' $RECIPIENTS	
 else
 	sed -e '1,/^Test Summary/d' < /tmp/stage-results.txt > /tmp/stage-summary.txt
-	echo 'Log in and examine /tmp/stage-results.txt for more details.' >> /tmp/stage-summary.txt
-	 HOME=/home/ubuntu mailx -s 'TPS Stage failure' $RECIPIENTS < /tmp/stage-summary.txt
+	echo -e "\n\nDetails in the attachment." >> /tmp/stage-summary.txt
+	HOME=/home/ubuntu mailx -a /tmp/stage-results.txt -s 'TPS Stage failure' $RECIPIENTS < /tmp/stage-summary.txt
 fi
