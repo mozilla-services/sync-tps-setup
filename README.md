@@ -11,10 +11,12 @@ How to do this will vary -- ask kthiessen
 # Docker 
 
 ## Summary
+
 The Sync TPS tests will be downloaded from mozilla-central and can be executed within a Docker container.
 
 ## Building Docker
-```
+
+```sh
 docker build -t firefoxtesteng/sync-tps-setup .
 ```
 
@@ -22,7 +24,7 @@ docker build -t firefoxtesteng/sync-tps-setup .
 
 **STAGE**
 
-```
+```sh
 TEST_CONFIG=`cat stage-config.json` 
 docker run -e "TEST_CONFIG=${TEST_CONFIG}" firefoxtesteng/sync-tps-setup
 ```
@@ -31,7 +33,7 @@ or
 
 **PROD**
 
-```
+```sh
 TEST_CONFIG=`cat prod-config.json`
 docker run -e "TEST_CONFIG=${TEST_CONFIG}" firefoxtesteng/sync-tps-setup
 ```
