@@ -3,9 +3,10 @@ USER root
 
 WORKDIR /tests
 
-ARG TEST_CONFIG="{'error':'missing_config'}"
+COPY run.sh .
 
-ENV MOZ_HEADLESS="1"
+ARG TEST_CONFIG="{'error':'missing_config'}"
+ARG TEST_ENV="{'error': 'missing_test_env'}"
 
 RUN apt-get -y update && \
     apt-get install -y -qq software-properties-common && \
@@ -39,8 +40,7 @@ RUN wget -O firefox-nightly.tar.bz2 'https://download.mozilla.org/?product=firef
     rm -rf /tmp master.zip firefox-nightly.tar.bz2
 
 RUN cd /mnt/extra/mozilla-central/testing/tps && \
-    ./create_venv.py /tests/venv 
+    ./create_venv.py /tests/venv
 
 CMD . /tests/venv/bin/activate && \
-    echo ${TEST_CONFIG} > config.json && \
-    /tests/venv/bin/runtps --debug --binary="/tests/firefox-nightly/firefox" --configfile=/tests/config.json
+    /tests/run.sh $TEST_CONFIG
