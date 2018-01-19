@@ -3,7 +3,7 @@ set -e
 
 TEST_CONFIG=$1
 BINARY=/tests/firefox-nightly/firefox
-CONFIG_FILE=/tests/config.json
+CONFIG_FILE=/tests/venv/config.json
 
 echo $TEST_CONFIG > $CONFIG_FILE
 
