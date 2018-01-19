@@ -18,7 +18,7 @@ fi
 if [ "$TEST_ENV" == "prod" ]; then
   echo "xvfb-run /tests/venv/bin/runtps --debug --binary='$BINARY' --configfile='$CONFIG_FILE' $TESTFILE_ARGS"
 elif [ "$TEST_ENV" == "stage" ]; then
-  echo "MOZ_HEADLESS=1 /tests/venv/bin/runtps --debug --binary='$BINARY' --configfile='$CONFIG_FILE' $TESTFILE_ARGS"
+  MOZ_HEADLESS=1 /tests/venv/bin/runtps --debug --binary='$BINARY' --configfile='$CONFIG_FILE' $TESTFILE_ARGS
 else
   echo "Unknown environment: $TEST_ENV"
   exit 127
