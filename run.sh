@@ -5,10 +5,9 @@ TEST_CONFIG=$1
 BINARY=/tests/firefox-nightly/firefox
 CONFIG_FILE=/tests/config.json
 
-echo ${TEST_CONFIG} > $CONFIG_FILE
+echo $TEST_CONFIG > $CONFIG_FILE
 
 if [ "$TEST_ENV" == "prod" ] && [ -z "$TESTFILE" ]; then
-  echo "prod, no testfile"
   TESTFILE="test_sync.js"
 fi
 
