@@ -1,16 +1,11 @@
 FROM ubuntu:16.04 
-USER root
 
 WORKDIR /tests
 
-COPY run.sh .
-
-ARG TEST_CONFIG="{'error':'missing_config'}"
-ARG TEST_ENV="{'error': 'missing_test_env'}"
-
 RUN apt-get -y update && \
     apt-get install -qq -y software-properties-common && \
-    apt-get install -qq -y wget unzip xvfb \ 
+    apt-get install -qq -y sudo && \
+    apt-get install -qq -y wget unzip \ 
                        libreadline-gplv2-dev libncursesw5-dev \
                        libssl-dev libsqlite3-dev tk-dev libgdbm-dev \
                        libc6-dev libbz2-dev libgtk-3-0 libdbus-glib-1-2 \
@@ -18,7 +13,8 @@ RUN apt-get -y update && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 
-RUN mkdir -p /mnt/extra/mozilla-central/services && \
+RUN chmod -R 777 /tests && \
+    mkdir -p /mnt/extra/mozilla-central/services && \
     mkdir -p /mnt/extra/mozilla-central/testing/tps && \
     wget -q https://github.com/mozilla/gecko-dev/archive/master.zip 
 
@@ -34,6 +30,7 @@ RUN unzip master.zip 'gecko-dev-master/testing/modules/*' -d /tmp && \
 RUN unzip master.zip 'gecko-dev-master/testing/tps/*' -d /tmp && \
     mv /tmp/gecko-dev-master/testing/tps /mnt/extra/mozilla-central/testing 
 
+# firefox binary
 RUN wget -q -O firefox-nightly.tar.bz2 'https://download.mozilla.org/?product=firefox-nightly-latest-ssl&os=linux64&lang=en-US' && \
     tar xjf firefox-nightly.tar.bz2 && \
     mv -i firefox firefox-nightly && \
@@ -41,6 +38,3 @@ RUN wget -q -O firefox-nightly.tar.bz2 'https://download.mozilla.org/?product=fi
 
 RUN cd /mnt/extra/mozilla-central/testing/tps && \
     ./create_venv.py /tests/venv
-
-CMD . /tests/venv/bin/activate && \
-    /tests/run.sh $TEST_CONFIG

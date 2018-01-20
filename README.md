@@ -2,17 +2,18 @@
 
 TPS is Testing and Performance for (Firefox) Sync.  It's a test suite that lives in `mozilla-central`.  Documentation for TPS is on MDN at https://developer.mozilla.org/en-US/docs/Mozilla/Projects/TPS_Tests.
 
-This piece of automation is designed to run TPS on a designated schedule from an Ubuntu 16.04 LTS node in AWS.
+This automation is designed to run TPS from a Docker container and includes a Jenkinsfile to enable execution from a Jenkins instance.
+It is used by the Firefox Test Engineering Team Jenkins CI system and executed once daily via cron.
 
 PLEASE NOTE:
-Make sure you have the keys necessary to decrypt the \*.asc config files provided. 
+Make sure you have the keys necessary to decrypt the \*.asc config files provided for STAGE and PROD environments respectively. 
 How to do this will vary -- ask kthiessen
 
 # Docker 
 
 ## Summary
 
-The Sync TPS tests will be downloaded from mozilla-central and can be executed within a Docker container.
+The Sync TPS tests will be downloaded from mozilla-central and executed from within a Docker container.
 
 ## Building Docker
 
@@ -26,7 +27,7 @@ docker build -t firefoxtesteng/sync-tps-setup .
 
 ```sh
 TEST_CONFIG=`cat stage-config.json` 
-docker run -e "TEST_CONFIG=${TEST_CONFIG}" firefoxtesteng/sync-tps-setup
+docker run -e "TEST_ENV=stage" -e "TEST_CONFIG=${TEST_CONFIG}" firefoxtesteng/sync-tps-setup
 ```
 
 or
@@ -35,5 +36,35 @@ or
 
 ```sh
 TEST_CONFIG=`cat prod-config.json`
-docker run -e "TEST_CONFIG=${TEST_CONFIG}" firefoxtesteng/sync-tps-setup
+docker run -e "TEST_ENV=prod" -e "TEST_CONFIG=${TEST_CONFIG}" firefoxtesteng/sync-tps-setup
 ```
+
+## Running Docker via Jenkins 
+
+Jenkins execution is configured via the Jenkinsfile included in this repo.  You can specify all your job configurations options via this file.
+
+A few things of Note:
+
+**triggers**
+
+To run this job on a cron schedule, set cron values here.
+
+**environment**
+
+You will need to create a few of the environment variables in this section. They begin with: "SYNC\_TPS\_"
+
+**post**
+
+Configure your email confirmations here
+
+**changed**
+
+Turn IRC notifications on / off here
+
+## Firefox Test Engineering Jenkins
+
+**Schedule**
+
+* STAGE:  9 UTC
+* PROD:   6:35 UTC
+
