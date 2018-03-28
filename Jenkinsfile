@@ -47,7 +47,7 @@ pipeline {
   }
   post {
     always {
-      sh 'gzip tps.log'
+      sh 'gzip -f tps.log'
     } 
     success {
       emailext(
