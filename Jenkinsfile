@@ -5,6 +5,7 @@ pipeline {
       dockerfile {
         filename 'Dockerfile' 
         args '-u root:root' 
+        additionalBuildArgs '--no-cache'
       }
   }
   libraries {
@@ -39,7 +40,7 @@ pipeline {
 	  } else {
 	    testEnv = "${env.TEST_ENV}" 
 	    sh 'echo "ERROR: ${TEST_ENV} is not a recognized TEST_ENV --> Aborting!"'
-            sh 'exit 1'
+		sh 'exit 1'
 	  } 
         }
       } 
@@ -70,5 +71,3 @@ pipeline {
     }
   }
 }
-
-
