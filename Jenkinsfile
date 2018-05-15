@@ -18,6 +18,7 @@ pipeline {
     TEST_ENV = "${TEST_ENV ?: JOB_NAME.split('\\.')[1]}"
     SYNC_TPS_EMAIL_RECIPIENT = credentials('SYNC_TPS_EMAIL_RECIPIENT')
     SYNC_TPS_CONFIG_STAGE = credentials('SYNC_TPS_CONFIG_STAGE')
+    SYNC_TPS_CONFIG_STAGE_BUFFER = credentials('SYNC_TPS_CONFIG_STAGE_BUFFER')
     SYNC_TPS_CONFIG_PROD = credentials('SYNC_TPS_CONFIG_PROD')
     TPS_BINARY = '/tests/venv/bin/runtps'
     FIREFOX_BINARY = '/tests/firefox-nightly/firefox' 
@@ -29,6 +30,9 @@ pipeline {
 	script {
 	  if (env.TEST_ENV == 'stage') {
 	    sh 'echo ${SYNC_TPS_CONFIG_STAGE} > ${CONFIG}'
+	    sh "MOZ_HEADLESS=1 ${TPS_BINARY} --debug --binary=${FIREFOX_BINARY} --configfile=${CONFIG}"
+	  } else if (env.TEST_ENV == 'stage-buffer') {
+	    sh 'echo ${SYNC_TPS_CONFIG_STAGE_BUFFER} > ${CONFIG}'
 	    sh "MOZ_HEADLESS=1 ${TPS_BINARY} --debug --binary=${FIREFOX_BINARY} --configfile=${CONFIG}"
 	  } else if (env.TEST_ENV == 'prod') {
 	    sh 'echo ${SYNC_TPS_CONFIG_PROD} > ${CONFIG}'
