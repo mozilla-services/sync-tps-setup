@@ -6,8 +6,10 @@ This automation is designed to run TPS from a Docker container and includes a Je
 It is used by the Firefox Test Engineering Team Jenkins CI system and executed once daily via cron.
 
 PLEASE NOTE:
-Make sure you have the keys necessary to decrypt the \*.asc config files provided for STAGE and PROD environments respectively. 
-How to do this will vary -- ask kthiessen
+Config files for the STAGE and PROD environments are stored as credentials in the Firefox Test Jenkins and 
+backed up to our team LastPass account. 
+
+For more info, contact rpapa or kthiessen
 
 # Docker 
 
@@ -66,5 +68,6 @@ Turn IRC notifications on / off here
 **Schedule**
 
 * STAGE:  9 UTC
-* PROD:   6:35 UTC
+* STAGE with buffer:  10 UTC
+* PROD:   6:30 UTC
 

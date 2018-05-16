@@ -5,3 +5,4 @@ __pycache__
 .cache
 .tox
 *.json
+*.BAK
